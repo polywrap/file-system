@@ -5,3 +5,7 @@ project:
 source:
   module: ./src/index.ts
   schema: ./src/schema.graphql
+  import_abis:
+    - uri: wrap://ens/wraps.eth:file-system@1.0.0
+      abi: ../../interface/src/schema.graphql
+

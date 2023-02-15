@@ -30,7 +30,7 @@ describe("FileSystem plugin", () => {
     client = new PolywrapClient(
       {
         resolver: UriResolver.from({
-          uri: "wrap://ens/wrappers.polywrap.eth:file-system@1.0.0",
+          uri: "wrap://ens/wraps.eth:file-system@1.0.0",
           package: fileSystemPlugin({}),
         }),
       },
