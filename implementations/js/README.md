@@ -1,4 +1,4 @@
-# @polywrap/fs-plugin-js
+# @polywrap/file-system-plugin-js
 
 Filesystem Plugin allows the Polywrap JS Client to interact with the local filesystem.
 
@@ -6,7 +6,7 @@ Filesystem Plugin allows the Polywrap JS Client to interact with the local files
 
 ``` typescript
 import { PolywrapClient } from "@polywrap/client-js";
-import { filesystemPlugin } from "@polywrap/fs-plugin-js";
+import { filesystemPlugin } from "@polywrap/file-system-plugin-js";
 
 // query a local wrapper
 export async function foo({
