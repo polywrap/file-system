@@ -14,7 +14,6 @@ describe("FileSystem plugin", () => {
   const tempFilePath = path.resolve(__dirname, "samples/tempfile.dat");
   const tempDirPath = path.resolve(__dirname, "samples/tempdir");
 
-  let client: PolywrapClient;
   const cleanUpTempFiles = async () => {
     if (fs.existsSync(tempFilePath)) {
       await fs.promises.rm(tempFilePath, { force: true });
@@ -24,6 +23,9 @@ describe("FileSystem plugin", () => {
       await fs.promises.rm(tempDirPath, { force: true, recursive: true });
     }
   };
+
+  let client: PolywrapClient;
+
   beforeAll(async () => {
     await cleanUpTempFiles();
 
@@ -33,8 +35,7 @@ describe("FileSystem plugin", () => {
           uri: Uri.from("wrap://ens/wraps.eth:file-system@1.0.0"),
           package: fileSystemPlugin({}),
         }),
-      },
-      { noDefaults: true }
+      }
     );
   });
 
