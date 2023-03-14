@@ -1,6 +1,3 @@
-import fs from "fs";
-import { Client, PluginFactory } from "@polywrap/core-js";
-
 import {
   Module,
   manifest,
@@ -13,6 +10,9 @@ import {
   Args_rmdir,
 } from "./wrap";
 import fileSystemEncodingToBufferEncoding from "./utils/fileSystemEncodingToBufferEncoding";
+
+import fs from "fs";
+import { Client, PluginFactory } from "@polywrap/core-js";
 
 type NoConfig = Record<string, never>;
 
@@ -68,6 +68,7 @@ export class FileSystemPlugin extends Module<NoConfig> {
     return true;
   }
 }
+
 export const fileSystemPlugin: PluginFactory<NoConfig> = () => ({
   manifest,
   factory: () => new FileSystemPlugin({}),
