@@ -1,11 +1,11 @@
 import { fileSystemPlugin } from "../index";
 import { PolywrapClient } from "@polywrap/client-js";
-import { UriResolver } from "@polywrap/uri-resolvers-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { FileSystem_Module, FileSystem_EncodingEnum } from "../wrap";
 import fs from "fs";
 import path from "path";
 import fileSystemEncodingToBufferEncoding from "../utils/fileSystemEncodingToBufferEncoding";
-import {Uri, WrapError} from "@polywrap/core-js";
+import { WrapError } from "@polywrap/core-js";
 
 jest.setTimeout(360000);
 
@@ -29,14 +29,12 @@ describe("FileSystem plugin", () => {
   beforeAll(async () => {
     await cleanUpTempFiles();
 
-    client = new PolywrapClient(
-      {
-        resolver: UriResolver.from({
-          uri: Uri.from("wrap://ens/wraps.eth:file-system@1.0.0"),
-          package: fileSystemPlugin({}),
-        }),
-      }
-    );
+    const config = new ClientConfigBuilder()
+      .addDefaults()
+      .addPlugin("wrap://ens/wraps.eth:file-system@1.0.0", fileSystemPlugin({}))
+      .build();
+
+    client = new PolywrapClient(config);
   });
 
   afterEach(async () => {
