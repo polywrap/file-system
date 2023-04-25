@@ -152,6 +152,7 @@ fn should_return_whether_a_file_exists_or_not() {
         None,
         None,
     );
+
     match result_file_exists {
         Ok(file_exists) => assert!(file_exists),
         Err(e) => panic!("Test failed: {:?}", e),
