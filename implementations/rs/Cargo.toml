@@ -1,6 +1,6 @@
 [package]
 name = "fs_plugin_rs"
-version = "0.0.1-beta.1"
+version = "0.0.1-beta.2"
 license = "MIT"
 description = "Polywrap rust File system plugin"
 edition = "2021"
