@@ -1,11 +1,16 @@
 use fs_plugin_rs::FileSystemPlugin;
-use polywrap_client::client::PolywrapClient;
-use polywrap_core::resolvers::static_resolver::{StaticResolver, StaticResolverLike};
-use polywrap_core::{
-    client::ClientConfig, resolvers::uri_resolution_context::UriPackage, uri::Uri,
+use polywrap_client::{
+    client::PolywrapClient,
+    core::{
+        client::ClientConfig,
+        resolvers::static_resolver::{StaticResolver, StaticResolverLike},
+        resolvers::uri_resolution_context::UriPackage,
+        uri::Uri,
+    },
+    msgpack::msgpack,
+    plugin::package::PluginPackage,
 };
-use polywrap_msgpack::msgpack;
-use polywrap_plugin::package::PluginPackage;
+
 use std::sync::{Arc, Mutex};
 
 use std::path::Path;
