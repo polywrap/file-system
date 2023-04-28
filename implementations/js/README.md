@@ -1,58 +1,31 @@
 # @polywrap/file-system-plugin-js
 
-Filesystem Plugin allows the Polywrap JS Client to interact with the local filesystem.
+The Filesystem plugin enables wraps running within the Polywrap client to interact with the local filesystem.
+
+## Interface
+
+The FileSystem plugin implements an existing wrap interface at `wrap://ens/wraps.eth:file-system@1.0.0`.
 
 ## Usage
 
 ``` typescript
-import { PolywrapClient } from "@polywrap/client-js";
+import { PolywrapClient, ClientConfigBuilder } from "@polywrap/client-js";
 import { filesystemPlugin } from "@polywrap/file-system-plugin-js";
 
-// query a local wrapper
-export async function foo({
+const config = new ClientConfigBuilder()
+  .addPackage(
+    "wrap://ens/wraps.eth:file-system@1.0.0",
+    fileSystemPlugin({ })
+  )
+  .build();
 
-  const filesystemPluginUri = "wrap://ens/fs.polywrap.eth";
-
-  // initialize the client with eth, ipfs, ens plugins
-  client = new PolywrapClient({
-    plugins: [
-      {
-        uri: filesystemPluginUri,
-        plugin: fileSystemPlugin({}),
-      },
-    ],
-  });
-
-  const sampleFilePath = path.resolve(__dirname, "samples/sample.txt");
-
-  // and read from filesystem
-  const response = await client.invoke<string>({
-    filesystemPluginUri,
-    method: "readFile",
-    input: {
-      path: sampleFilePath,
-    },
-  });
-
-  // or instantiate the plugin
-  const plugin = filesystemPlugin({});
-
-  // and read from filesystem
-  const response' = await plugin.readFile(
-    { path: sampleFilePath, },
-    client
-  );
+client.invoke<Uint8Array>({
+  uri: "wrap://ens/wraps.eth:file-system@1.0.0",
+  method: "readFile",
+  args: {
+    path: "./file.txt"
+  }
 });
 ```
 
 For more usage examples see `src/__tests__`.
-
-## API
-
- - readFile
- - readFileAsString
- - writeFile
- - exists
- - mkdir
- - rm
- - rmdir
