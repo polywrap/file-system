@@ -1,7 +1,8 @@
 import { fileSystemPlugin } from "../index";
 import { PolywrapClient } from "@polywrap/client-js";
 import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
-import { FileSystem_Module, FileSystem_EncodingEnum } from "../wrap";
+import { EncodingEnum } from "../wrap";
+import { FileSystem_Module, FileSystem_EncodingEnum } from "./types/wrap";
 import fs from "fs";
 import path from "path";
 import fileSystemEncodingToBufferEncoding from "../utils/fileSystemEncodingToBufferEncoding";
@@ -13,6 +14,7 @@ describe("FileSystem plugin", () => {
   const sampleFilePath = path.resolve(__dirname, "samples/sample.txt");
   const tempFilePath = path.resolve(__dirname, "samples/tempfile.dat");
   const tempDirPath = path.resolve(__dirname, "samples/tempdir");
+  const uri = "wrap://ens/wraps.eth:file-system@1.0.0";
 
   const cleanUpTempFiles = async () => {
     if (fs.existsSync(tempFilePath)) {
@@ -31,7 +33,7 @@ describe("FileSystem plugin", () => {
 
     const config = new ClientConfigBuilder()
       .addDefaults()
-      .addPlugin("wrap://ens/wraps.eth:file-system@1.0.0", fileSystemPlugin({}))
+      .addPackage(uri, fileSystemPlugin({}))
       .build();
 
     client = new PolywrapClient(config);
@@ -67,7 +69,7 @@ describe("FileSystem plugin", () => {
   });
 
   it("should read a UTF8-encoded file as a string", async () => {
-    let encoding = FileSystem_EncodingEnum.UTF8;
+    let encoding = EncodingEnum.UTF8;
 
     const expectedContents = await fs.promises.readFile(sampleFilePath, {
       encoding: fileSystemEncodingToBufferEncoding(encoding),
@@ -104,7 +106,7 @@ describe("FileSystem plugin", () => {
       if (!result.ok) fail(result.error);
 
       const expectedContents = await fs.promises.readFile(sampleFilePath, {
-        encoding: fileSystemEncodingToBufferEncoding(encoding),
+        encoding: fileSystemEncodingToBufferEncoding((encoding as unknown) as EncodingEnum),
       });
 
       expect(result.value).toBe(expectedContents);

@@ -1,11 +1,11 @@
 {
   "name": "@polywrap/file-system-plugin-js",
   "description": "Polywrap File System Javascript Plugin",
-  "version": "0.9.6",
+  "version": "0.10.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polywrap/monorepo.git"
+    "url": "https://github.com/polywrap/file-system.git"
   },
   "main": "build/index.js",
   "files": [
@@ -15,22 +15,23 @@
     "build": "rimraf ./build && yarn codegen && tsc --project tsconfig.build.json",
     "codegen": "npx polywrap codegen",
     "lint": "eslint --color -c ./.eslintrc.js src/",
-    "test": "jest --passWithNoTests --runInBand --verbose",
-    "test:ci": "jest --passWithNoTests --runInBand --verbose",
-    "test:watch": "jest --watch --passWithNoTests --verbose",
+    "test": "yarn test:codegen && jest --passWithNoTests --runInBand --verbose",
+    "test:codegen": "npx polywrap codegen -m ./src/__tests__/types/polywrap.yaml -g ./src/__tests__/types/wrap",
     "publish:npm": "yarn publish --access public --non-interactive --verbose",
     "publish:pre:npm": "yarn publish --access public --non-interactive --verbose --tag pre"
   },
   "dependencies": {
-    "@polywrap/core-js": "0.9.6"
+    "@polywrap/core-js": "0.10.0",
+    "@polywrap/plugin-js": "0.10.0"
   },
   "peerDependencies": {
-    "@polywrap/core-js": "0.9.x"
+    "@polywrap/core-js": "0.10.x",
+    "@polywrap/plugin-js": "0.10.x"
   },
   "devDependencies": {
-    "polywrap": "0.9.6",
-    "@polywrap/client-js": "0.9.6",
-    "@polywrap/client-config-builder-js": "0.9.6",
+    "polywrap": "0.10.2",
+    "@polywrap/client-js": "0.10.0",
+    "@polywrap/client-config-builder-js": "0.10.0",
     "@types/jest": "26.0.8",
     "jest": "26.6.3",
     "rimraf": "3.0.2",

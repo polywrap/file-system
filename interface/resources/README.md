@@ -2,7 +2,7 @@
 
 | Version | URI | WRAP Version |
 |-|-|-|
-| 1.0.0 | [`wrap://ens/wrappers.polywrap.eth:file-system@1.0.0`](https://wrappers.io/v/ens/wrappers.polywrap.eth:file-system@1.0.0) | 0.1 |
+| 1.0.0 | [`wrap://ens/wraps.eth:file-system@1.0.0`](https://wrappers.io/v/ens/wraps.eth:file-system@1.0.0) | 0.1 |
 
 ## Interface
 ```graphql
@@ -35,9 +35,7 @@ enum Encoding {
 
 ## Usage
 ```graphql
-#import { Module } into FileSystem from "ens/wrappers.polywrap.eth:file-system@1.0.0"
-
-type Module implements FileSystem_Module {}
+#import * from "ens/wraps.eth:file-system@1.0.0"
 ```
 
 And implement the interface methods within your programming language of choice.
