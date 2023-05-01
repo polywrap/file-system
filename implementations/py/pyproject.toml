@@ -72,4 +72,4 @@ multi_line_output = 3
 skip = ["polywrap_fs_plugin/wrap"]
 
 [tool.pydocstyle]
-# default
+# default config
