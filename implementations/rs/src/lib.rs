@@ -1,12 +1,8 @@
 use std::{fs, path::Path, sync::Arc};
-
 use crate::wrap::wrap_info::get_manifest;
-use polywrap_client::{
-    core as polywrap_core, msgpack as polywrap_msgpack, plugin as polywrap_plugin,
-};
+
 use polywrap_core::invoke::Invoker;
 use polywrap_plugin::{error::PluginError, implementor::plugin_impl, JSON};
-
 use wrap::module::{
     ArgsExists, ArgsMkdir, ArgsReadFile, ArgsReadFileAsString, ArgsRm, ArgsRmdir, ArgsWriteFile,
     Module,
@@ -44,7 +40,6 @@ impl Module for FileSystemPlugin {
         args: &ArgsWriteFile,
         _: Arc<dyn Invoker>,
     ) -> Result<Option<bool>, PluginError> {
-        dbg!("yu");
         fs::write(Path::new(&args.path), &args.data).unwrap();
 
         Ok(Some(true))
