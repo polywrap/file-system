@@ -107,7 +107,7 @@ impl FileSystemModule {
 
     pub fn read_file(args: &FileSystemModuleArgsReadFile, invoker: Arc<dyn Invoker>) -> Result<Vec<u8>, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -129,7 +129,7 @@ impl FileSystemModule {
 
     pub fn read_file_as_string(args: &FileSystemModuleArgsReadFileAsString, invoker: Arc<dyn Invoker>) -> Result<String, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -151,7 +151,7 @@ impl FileSystemModule {
 
     pub fn exists(args: &FileSystemModuleArgsExists, invoker: Arc<dyn Invoker>) -> Result<bool, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -173,7 +173,7 @@ impl FileSystemModule {
 
     pub fn write_file(args: &FileSystemModuleArgsWriteFile, invoker: Arc<dyn Invoker>) -> Result<Option<bool>, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -195,7 +195,7 @@ impl FileSystemModule {
 
     pub fn mkdir(args: &FileSystemModuleArgsMkdir, invoker: Arc<dyn Invoker>) -> Result<Option<bool>, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -217,7 +217,7 @@ impl FileSystemModule {
 
     pub fn rm(args: &FileSystemModuleArgsRm, invoker: Arc<dyn Invoker>) -> Result<Option<bool>, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
@@ -239,7 +239,7 @@ impl FileSystemModule {
 
     pub fn rmdir(args: &FileSystemModuleArgsRmdir, invoker: Arc<dyn Invoker>) -> Result<Option<bool>, PluginError> {
         let uri = FileSystemModule::URI;
-        let serialized_args = serialize(args.clone()).unwrap();
+        let serialized_args = serialize(&args.clone()).unwrap();
         let opt_args = Some(serialized_args.as_slice());
         let uri = Uri::try_from(uri).unwrap();
         let result = invoker.invoke_raw(
