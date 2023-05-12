@@ -24,8 +24,8 @@ pub fn get_manifest() -> WrapManifest {
       ],
       "kind": 520,
       "namespace": "FileSystem",
-      "nativeType": "FileSystem_Encoding",
-      "type": "FileSystem_FileSystem_Encoding",
+      "nativeType": "Encoding",
+      "type": "FileSystem_Encoding",
       "uri": "wrap://ens/wraps.eth:file-system@1.0.0"
     }
   ],
@@ -84,11 +84,11 @@ pub fn get_manifest() -> WrapManifest {
               "enum": {
                 "kind": 16384,
                 "name": "encoding",
-                "type": "FileSystem_FileSystem_Encoding"
+                "type": "FileSystem_Encoding"
               },
               "kind": 34,
               "name": "encoding",
-              "type": "FileSystem_FileSystem_Encoding"
+              "type": "FileSystem_Encoding"
             }
           ],
           "kind": 64,
@@ -315,7 +315,7 @@ pub fn get_manifest() -> WrapManifest {
         "type": "FileSystem_Module"
       },
       {
-        "type": "FileSystem_FileSystem_Encoding"
+        "type": "FileSystem_Encoding"
       }
     ],
     "interfaces": [
@@ -376,11 +376,11 @@ pub fn get_manifest() -> WrapManifest {
             "enum": {
               "kind": 16384,
               "name": "encoding",
-              "type": "FileSystem_FileSystem_Encoding"
+              "type": "FileSystem_Encoding"
             },
             "kind": 34,
             "name": "encoding",
-            "type": "FileSystem_FileSystem_Encoding"
+            "type": "FileSystem_Encoding"
           }
         ],
         "kind": 64,

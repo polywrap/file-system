@@ -1,22 +1,17 @@
 [package]
 name = "fs_plugin_rs"
-version = "0.0.1-beta.3"
+version = "0.0.1-beta.4"
 license = "MIT"
 description = "Polywrap rust File system plugin"
 edition = "2021"
 
-include = [
-    "src/wrap/*",
-    "src/lib.rs"
-]
-
 [dependencies]
-polywrap_core = { version = "0.1.6-beta.1" }
-polywrap_plugin = { version = "0.1.6-beta.1" }
-polywrap_msgpack = { version = "0.1.6-beta.1" }
-wrap_manifest_schemas = { version = "0.1.6-beta.1" }
+polywrap_core = { version = "0.1.6-beta.2" }
+polywrap_plugin = { version = "0.1.6-beta.2" }
+polywrap_msgpack = { version = "0.1.6-beta.2" }
+wrap_manifest_schemas = { version = "0.1.6-beta.2" }
 serde = { version = "1.0.145", features = ["derive"] }
 rm_rf = "0.6.2"
 
 [dev-dependencies]
-polywrap_client = { version = "0.1.6-beta.1" }
+polywrap_client = { version = "0.1.6-beta.2" }
