@@ -6,10 +6,23 @@ type Module {
 
   writeFile(path: String!, data: Bytes!): Boolean
 
-  mkdir(path: String!, recursive: Boolean): Boolean
+  mkdir(path: String!, recursive: Boolean, mode: Int, exclusive:  Boolean): Boolean
 
   rm(path: String!, recursive: Boolean, force: Boolean): Boolean
-  rmdir(path: String!): Boolean
+  rmdir(path: String!, recursive: Boolean): Boolean
+
+  copyFile(source: String!, destination: String!): Boolean
+  copyDir(source: String!, destination: String!): Boolean
+
+  move(source: String!, destination: String!): Boolean
+
+  realPath(path: String!): String!
+
+  getMetadata(path: String!): Metadata!
+
+  renameFile(oldPath: String!, newPath: String!): Boolean
+
+  listDir(path: String!): [String!]!
 }
 
 enum Encoding {
@@ -22,4 +35,14 @@ enum Encoding {
   LATIN1
   BINARY
   HEX
+}
+
+type Metadata {
+  name: String!
+  creationTime: String!
+  lastModifiedTime: String!
+  permissions: Int!
+  size: Int!
+  isDirectory: Boolean!
+  isFile: Boolean!
 }
