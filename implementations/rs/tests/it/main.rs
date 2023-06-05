@@ -1,16 +1,14 @@
-use fs_plugin_rs::FileSystemPlugin;
 use polywrap_client::client::PolywrapClient;
-use polywrap_core::{
-    client::ClientConfig,
-    resolvers::static_resolver::{StaticResolver, StaticResolverLike},
-    uri::Uri,
-};
-use std::sync::{Arc};
+use polywrap_core::{client::ClientConfig, uri::Uri};
+use polywrap_fs_plugin::FileSystemPlugin;
+use polywrap_resolvers::static_resolver::{StaticResolver, StaticResolverLike};
 
-use std::path::Path;
-use std::{env, fs};
+use std::sync::Arc;
+
 use polywrap_msgpack::msgpack;
 use polywrap_plugin::package::PluginPackage;
+use std::path::Path;
+use std::{env, fs};
 
 fn clean_up_temp_files() -> std::io::Result<()> {
     let current_dir = env::current_dir().unwrap();
@@ -176,33 +174,33 @@ fn should_return_whether_a_file_exists_or_not() {
     }
 }
 
-// #[test]
-// fn should_write_byte_data_to_a_file() {
-//     let client = get_client();
-//     let current_dir = env::current_dir().unwrap();
-//     let temp_file_path = current_dir.join("tests/samples/tempfile.dat");
+#[test]
+fn should_write_byte_data_to_a_file() {
+    let client = get_client();
+    let current_dir = env::current_dir().unwrap();
+    let temp_file_path = current_dir.join("tests/samples/tempfile.dat");
 
-//     clean_up_temp_files().unwrap();
+    clean_up_temp_files().unwrap();
 
-//     let bytes = vec![0, 1, 2, 3];
-//     let result = client.invoke::<Option<bool>>(
-//         &Uri::try_from("plugin/file-system").unwrap(),
-//         "writeFile",
-//         Some(&msgpack!({
-//             "path": temp_file_path.to_str().unwrap().to_string(),
-//             "data": bytes
-//         })),
-//         None,
-//         None,
-//     );
-//     if let Err(e) = result {
-//         panic!("Test failed: {:?}", e);
-//     }
+    let bytes = vec![0, 1, 2, 3];
+    let result = client.invoke::<Option<bool>>(
+        &Uri::try_from("plugin/file-system").unwrap(),
+        "writeFile",
+        Some(&msgpack!({
+            "path": temp_file_path.to_str().unwrap().to_string(),
+            "data": bytes
+        })),
+        None,
+        None,
+    );
+    if let Err(e) = result {
+        panic!("Test failed: {:?}", e);
+    }
 
-//     let expected_file_contents = fs::read(&temp_file_path).unwrap();
+    let expected_file_contents = fs::read(&temp_file_path).unwrap();
 
-//     assert_eq!(expected_file_contents, vec![0, 1, 2, 3]);
-// }
+    assert_eq!(expected_file_contents, vec![0, 1, 2, 3]);
+}
 
 #[test]
 fn should_remove_a_file() {

@@ -15,7 +15,7 @@ pub struct ArgsReadFile {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ArgsReadFileAsString {
     pub path: String,
-    pub encoding: Option<FileSystemEncoding>,
+    pub encoding: Option<Encoding>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -26,6 +26,7 @@ pub struct ArgsExists {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ArgsWriteFile {
     pub path: String,
+    #[serde(with = "serde_bytes")]
     pub data: Vec<u8>,
 }
 

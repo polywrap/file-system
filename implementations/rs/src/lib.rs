@@ -10,7 +10,7 @@ use wrap::module::{
 pub mod wrap;
 
 #[derive(Debug)]
-pub struct FileSystemPlugin {}
+pub struct FileSystemPlugin;
 
 #[plugin_impl]
 impl Module for FileSystemPlugin {
@@ -19,7 +19,9 @@ impl Module for FileSystemPlugin {
         args: &ArgsReadFile,
         _: Arc<dyn Invoker>,
     ) -> Result<Vec<u8>, PluginError> {
-        fs::read(&args.path).map_err(|e| PluginError::ModuleError(e.to_string()))
+        fs::read(&args.path).map_err(|e| PluginError::InvocationError {
+            exception: e.to_string(),
+        })
     }
 
     fn read_file_as_string(
@@ -27,8 +29,10 @@ impl Module for FileSystemPlugin {
         args: &ArgsReadFileAsString,
         _: Arc<dyn Invoker>,
     ) -> Result<String, PluginError> {
-        // TODO: Add encoding
-        fs::read_to_string(&args.path).map_err(|e| PluginError::ModuleError(e.to_string()))
+        // TODO: Make use of args.encoding variable
+        fs::read_to_string(&args.path).map_err(|e| PluginError::InvocationError {
+            exception: e.to_string(),
+        })
     }
 
     fn exists(&mut self, args: &ArgsExists, _: Arc<dyn Invoker>) -> Result<bool, PluginError> {
