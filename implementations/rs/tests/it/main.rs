@@ -9,6 +9,7 @@ use polywrap_msgpack::msgpack;
 use polywrap_plugin::package::PluginPackage;
 use std::path::Path;
 use std::{env, fs};
+use serde_bytes::ByteBuf;
 
 fn clean_up_temp_files() -> std::io::Result<()> {
     let current_dir = env::current_dir().unwrap();
@@ -54,7 +55,7 @@ fn can_read_a_file() {
     let sample_file_path = current_dir.join("tests/samples/sample.txt");
 
     let expected_contents = fs::read(&sample_file_path).unwrap();
-    let result = client.invoke::<Vec<u8>>(
+    let result = client.invoke::<ByteBuf>(
         &Uri::try_from("plugin/file-system").unwrap(),
         "readFile",
         Some(&msgpack!({
@@ -65,7 +66,7 @@ fn can_read_a_file() {
     );
 
     match result {
-        Ok(contents) => assert_eq!(contents, expected_contents),
+        Ok(contents) => assert_eq!(contents.to_vec(), expected_contents),
         Err(e) => panic!("Test failed: {:?}", e),
     }
 }
