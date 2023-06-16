@@ -8,6 +8,7 @@ use wrap::module::{
     Module,
 };
 pub mod wrap;
+use serde_bytes::ByteBuf;
 
 #[derive(Debug)]
 pub struct FileSystemPlugin;
@@ -18,10 +19,12 @@ impl Module for FileSystemPlugin {
         &mut self,
         args: &ArgsReadFile,
         _: Arc<dyn Invoker>,
-    ) -> Result<Vec<u8>, PluginError> {
-        fs::read(&args.path).map_err(|e| PluginError::InvocationError {
+    ) -> Result<ByteBuf, PluginError> {
+        let result = fs::read(&args.path).map_err(|e| PluginError::InvocationError {
             exception: e.to_string(),
-        })
+        })?;
+
+        Ok(ByteBuf::from(result))
     }
 
     fn read_file_as_string(
