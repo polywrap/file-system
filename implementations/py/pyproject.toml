@@ -12,14 +12,23 @@ packages = [{include = "polywrap_fs_plugin"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-plugin = "0.1.0a29"
+# polywrap-plugin = "0.1.0a29"
 httpx = "^0.23.3"
-polywrap-core = "^0.1.0a29"
-polywrap-msgpack = "^0.1.0a29"
-polywrap-manifest = "^0.1.0a29"
+# polywrap-core = "^0.1.0a29"
+# polywrap-msgpack = "^0.1.0a29"
+# polywrap-manifest = "^0.1.0a29"
+
+polywrap-msgpack = { path = "../../../python-client/packages/polywrap-msgpack", develop = true }
+polywrap-manifest = { path = "../../../python-client/packages/polywrap-manifest", develop = true }
+polywrap-core = { path = "../../../python-client/packages/polywrap-core", develop = true }
+polywrap-wasm = { path = "../../../python-client/packages/polywrap-wasm", develop = true }
+polywrap-plugin = { path = "../../../python-client/packages/polywrap-plugin", develop = true }
+polywrap-uri-resolvers = { path = "../../../python-client/packages/polywrap-uri-resolvers", develop = true }
+polywrap-client = { path = "../../../python-client/packages/polywrap-client", develop = true }
+polywrap-client-config-builder = { path = "../../../python-client/packages/polywrap-client-config-builder", develop = true }
 
 [tool.poetry.group.dev.dependencies]
-polywrap-client = "0.1.0a29"
+# polywrap-client = "0.1.0a29"
 black = "^23.1.0"
 pytest = "^7.2.1"
 pytest-asyncio = "^0.20.3"
@@ -27,8 +36,8 @@ isort = "^5.12.0"
 bandit = "^1.7.4"
 pyright = "^1.1.296"
 pylint = "^2.16.3"
-polywrap-uri-resolvers = "^0.1.0a29"
-polywrap-client-config-builder = "^0.1.0a29"
+# polywrap-uri-resolvers = "^0.1.0a29"
+# polywrap-client-config-builder = "^0.1.0a29"
 tox = "^3.26.0"
 tox-poetry = "^0.4.1"
 pytest-mock = "^3.10.0"

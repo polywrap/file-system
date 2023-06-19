@@ -5,7 +5,7 @@ import shutil
 import stat
 from typing import Any
 
-from polywrap_core import InvokerClient, UriPackageOrWrapper
+from polywrap_core import InvokerClient
 from polywrap_plugin import PluginPackage
 
 from .wrap import *
@@ -14,17 +14,17 @@ from .wrap import *
 class FileSystemPlugin(Module[None]):
     """Defines the Filesystem plugin."""
 
-    async def read_file(
-        self, args: ArgsReadFile, client: InvokerClient[UriPackageOrWrapper], env: None
+    def read_file(
+        self, args: ArgsReadFile, client: InvokerClient, env: None
     ) -> bytes:
         """Read a file from the filesystem and return its contents as bytes. """
         with open(args["path"], "rb") as f:
             return f.read()
 
-    async def read_file_as_string(
+    def read_file_as_string(
         self,
         args: ArgsReadFileAsString,
-        client: InvokerClient[UriPackageOrWrapper],
+        client: InvokerClient,
         env: None,
     ) -> str:
         """Read a file from the filesystem, decode it using provided encoding\
@@ -54,14 +54,14 @@ class FileSystemPlugin(Module[None]):
 
         raise ValueError(f"Unsupported encoding: {encoding}")
 
-    async def exists(
-        self, args: ArgsExists, client: InvokerClient[UriPackageOrWrapper], env: None
+    def exists(
+        self, args: ArgsExists, client: InvokerClient, env: None
     ) -> bool:
         """Check if a file or directory exists."""
         return os.path.exists(args["path"])
 
-    async def write_file(
-        self, args: ArgsWriteFile, client: InvokerClient[UriPackageOrWrapper], env: None
+    def write_file(
+        self, args: ArgsWriteFile, client: InvokerClient, env: None
     ) -> bool:
         """Write data to a file on the filesystem."""
         with open(args["path"], "wb") as f:
@@ -69,7 +69,7 @@ class FileSystemPlugin(Module[None]):
         return True
 
 
-    async def mkdir(self, args: ArgsMkdir, client: InvokerClient[UriPackageOrWrapper], env: None):
+    def mkdir(self, args: ArgsMkdir, client: InvokerClient, env: None):
         """Create directories on the filesystem."""
         path = args["path"]
         if args.get("recursive", False):
@@ -81,8 +81,8 @@ class FileSystemPlugin(Module[None]):
             os.mkdir(path)
 
 
-    async def rm(
-        self, args: ArgsRm, client: InvokerClient[UriPackageOrWrapper], env: None
+    def rm(
+        self, args: ArgsRm, client: InvokerClient, env: None
     ) -> bool:
         """Remove a file or directory from the filesystem."""
         if os.path.isdir(args["path"]):
@@ -100,8 +100,8 @@ class FileSystemPlugin(Module[None]):
             os.remove(args["path"])
         return True
 
-    async def rmdir(
-        self, args: ArgsRmdir, client: InvokerClient[UriPackageOrWrapper], env: None
+    def rmdir(
+        self, args: ArgsRmdir, client: InvokerClient, env: None
     ) -> bool:
         """Remove an empty directory from the filesystem."""
         os.rmdir(args["path"])

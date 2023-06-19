@@ -15,34 +15,34 @@ from pathlib import Path
         ("HEX", "48656c6c6f2c20776f726c6421"),
     ],
 )
-async def test_read_file_as_string(
+def test_read_file_as_string(
     fs_plugin: Any, ascii_file_path: Path, encoding: str, expected: str
 ):
-    result = await fs_plugin.read_file_as_string(
+    result = fs_plugin.read_file_as_string(
         {"path": str(ascii_file_path), "encoding": encoding}, None, None
     )
     assert result == expected
 
 
-async def test_read_file_as_string_ucs2(fs_plugin: Any, ucs2_file_path: Path):
+def test_read_file_as_string_ucs2(fs_plugin: Any, ucs2_file_path: Path):
     # Test with UTF16LE encoding
-    result = await fs_plugin.read_file_as_string(
+    result = fs_plugin.read_file_as_string(
         {"path": str(ucs2_file_path), "encoding": "UCS2"}, None, None
     )
     assert result == "Hello, world!"
 
 
-async def test_read_file_as_string_utf16le(fs_plugin: Any, utf16le_file_path: Path):
+def test_read_file_as_string_utf16le(fs_plugin: Any, utf16le_file_path: Path):
     # Test with UTF16LE encoding
-    result = await fs_plugin.read_file_as_string(
+    result = fs_plugin.read_file_as_string(
         {"path": str(utf16le_file_path), "encoding": "UTF16LE"}, None, None
     )
     assert result == "Hello, world!"
 
 
-async def test_invalid_read_file_as_string(fs_plugin: Any, temp_dir: Path):
+def test_invalid_read_file_as_string(fs_plugin: Any, temp_dir: Path):
     # Test with an invalid or non-existent file path
     with pytest.raises(FileNotFoundError):
-        await fs_plugin.read_file_as_string(
+        fs_plugin.read_file_as_string(
             {"path": str(temp_dir / "non_existent.txt")}, None, None
         )
