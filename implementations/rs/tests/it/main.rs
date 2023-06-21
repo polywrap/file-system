@@ -7,9 +7,9 @@ use std::sync::Arc;
 
 use polywrap_msgpack::msgpack;
 use polywrap_plugin::package::PluginPackage;
+use serde_bytes::ByteBuf;
 use std::path::Path;
 use std::{env, fs};
-use serde_bytes::ByteBuf;
 
 fn clean_up_temp_files() -> std::io::Result<()> {
     let current_dir = env::current_dir().unwrap();
