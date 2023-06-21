@@ -1,4 +1,4 @@
-# @polywrap/file-system-plugin-js
+# @polywrap/file-system-plugin-py
 
 The Filesystem plugin enables wraps running within the Polywrap client to interact with the local filesystem.
 
