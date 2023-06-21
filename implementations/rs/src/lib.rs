@@ -2,7 +2,7 @@ use crate::wrap::wrap_info::get_manifest;
 use std::{fs, path::Path, sync::Arc};
 
 use polywrap_core::invoker::Invoker;
-use polywrap_plugin::{error::PluginError, implementor::plugin_impl, JSON};
+use polywrap_plugin::{error::PluginError, implementor::plugin_impl};
 use wrap::module::{
     ArgsExists, ArgsMkdir, ArgsReadFile, ArgsReadFileAsString, ArgsRm, ArgsRmdir, ArgsWriteFile,
     Module,
@@ -20,9 +20,7 @@ impl Module for FileSystemPlugin {
         args: &ArgsReadFile,
         _: Arc<dyn Invoker>,
     ) -> Result<ByteBuf, PluginError> {
-        let result = fs::read(&args.path).map_err(|e| PluginError::InvocationError {
-            exception: e.to_string(),
-        })?;
+        let result = fs::read(&args.path).map_err(|e| FileSystemPluginError::ReadFileError(args.path.clone(), e))?;
 
         Ok(ByteBuf::from(result))
     }
@@ -33,9 +31,7 @@ impl Module for FileSystemPlugin {
         _: Arc<dyn Invoker>,
     ) -> Result<String, PluginError> {
         // TODO: Make use of args.encoding variable
-        fs::read_to_string(&args.path).map_err(|e| PluginError::InvocationError {
-            exception: e.to_string(),
-        })
+        Ok(fs::read_to_string(&args.path).map_err(|e| FileSystemPluginError::ReadFileAsStringError(args.path.clone(), e))?)
     }
 
     fn exists(&mut self, args: &ArgsExists, _: Arc<dyn Invoker>) -> Result<bool, PluginError> {
@@ -47,7 +43,7 @@ impl Module for FileSystemPlugin {
         args: &ArgsWriteFile,
         _: Arc<dyn Invoker>,
     ) -> Result<Option<bool>, PluginError> {
-        fs::write(Path::new(&args.path), &args.data).unwrap();
+        fs::write(Path::new(&args.path), &args.data).map_err(|e| FileSystemPluginError::WriteFileError(args.path.clone(), e))?;
 
         Ok(Some(true))
     }
@@ -66,9 +62,9 @@ impl Module for FileSystemPlugin {
         let path = Path::new(&args.path);
 
         if recursive {
-            fs::create_dir_all(path).unwrap();
+            fs::create_dir_all(path).map_err(|e| FileSystemPluginError::MkDirRecursiveError(args.path.clone(), e))?;
         } else {
-            fs::create_dir(path).unwrap();
+            fs::create_dir(path).map_err(|e| FileSystemPluginError::MkDirError(args.path.clone(), e))?;
         }
 
         Ok(Some(true))
@@ -91,14 +87,14 @@ impl Module for FileSystemPlugin {
 
         if path.is_dir() {
             if force {
-                rm_rf::ensure_removed(path).unwrap();
+                rm_rf::ensure_removed(path).map_err(|e| FileSystemPluginError::RmRfError(args.path.clone(), e))?;
             } else if recursive {
-                fs::remove_dir_all(path).unwrap();
+                fs::remove_dir_all(path).map_err(|e| FileSystemPluginError::RmDirRecursiveError(args.path.clone(), e))?;
             } else {
-                fs::remove_dir(path).unwrap();
+                fs::remove_dir(path).map_err(|e| FileSystemPluginError::RmDirError(args.path.clone(), e))?;
             }
         } else {
-            fs::remove_file(path).unwrap();
+            fs::remove_file(path).map_err(|e| FileSystemPluginError::RmFileError(args.path.clone(), e))?;
         }
 
         Ok(Some(true))
@@ -109,8 +105,38 @@ impl Module for FileSystemPlugin {
         args: &ArgsRmdir,
         _: Arc<dyn Invoker>,
     ) -> Result<Option<bool>, PluginError> {
-        fs::remove_dir(&args.path).unwrap();
+        fs::remove_dir(&args.path).map_err(|e| FileSystemPluginError::RmDirError(args.path.clone(), e))?;
 
         Ok(Some(true))
+    }
+}
+
+#[derive(thiserror::Error, Debug)]
+pub enum FileSystemPluginError {
+    #[error("Error during RmRf, path: {0}, Message: `{1}`")]
+    RmRfError(String, rm_rf::Error),
+    #[error("Error removing directory, path: {0}, Message: `{1}`")]
+    RmDirError(String, std::io::Error),
+    #[error("Error recursively removing the directory, path: {0}, Message: `{1}`")]
+    RmDirRecursiveError(String, std::io::Error),
+    #[error("Error removing file, path: {0}, Message: `{1}`")]
+    RmFileError(String, std::io::Error),
+    #[error("Error reading file, path: {0}, Message: `{1}`")]
+    ReadFileError(String, std::io::Error),
+    #[error("Error reading file as string, path: {0}, Message: `{1}`")]
+    ReadFileAsStringError(String, std::io::Error),
+    #[error("Error writing to file, path: {0}, Message: `{1}`")]
+    WriteFileError(String, std::io::Error),
+    #[error("Error recursively creating the directory, path: {0}, Message: `{1}`")]
+    MkDirRecursiveError(String, std::io::Error),
+    #[error("Error creating the directory, path: {0}, Message: `{1}`")]
+    MkDirError(String, std::io::Error),
+}
+
+impl From<FileSystemPluginError> for PluginError {
+    fn from(e: FileSystemPluginError) -> Self {
+        PluginError::InvocationError {
+            exception: e.to_string(),
+        }
     }
 }
