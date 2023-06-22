@@ -1,7 +1,8 @@
 from pathlib import Path
 from polywrap_client import PolywrapClient
-from polywrap_core import InvokerOptions, Uri
+from polywrap_core import Uri
 import pytest
+
 
 @pytest.mark.parametrize(
     "encoding,expected",
@@ -15,52 +16,50 @@ import pytest
         ("HEX", "48656c6c6f2c20776f726c6421"),
     ],
 )
-async def test_read_file_as_string_integration(
+def test_read_file_as_string_integration(
     client: PolywrapClient, ascii_file_path: Path, encoding: str, expected: str
 ):
-    result = await client.invoke(
-        InvokerOptions(
-            uri=Uri.from_str("plugin/fs"),
-            method="readFileAsString",
-            args={"path": str(ascii_file_path), "encoding": encoding},
-        )
+    result = client.invoke(
+        uri=Uri.from_str("plugin/fs"),
+        method="readFileAsString",
+        args={"path": str(ascii_file_path), "encoding": encoding},
     )
     assert result == expected
 
 
-async def test_read_file_as_string_ucs2_integration(client: PolywrapClient, ucs2_file_path: Path):
+def test_read_file_as_string_ucs2_integration(
+    client: PolywrapClient, ucs2_file_path: Path
+):
     # Test with UCS2 encoding
-    result = await client.invoke(
-        InvokerOptions(
-            uri=Uri.from_str("plugin/fs"),
-            method="readFileAsString",
-            args={"path": str(ucs2_file_path), "encoding": "UCS2"},
-        )
+    result = client.invoke(
+        uri=Uri.from_str("plugin/fs"),
+        method="readFileAsString",
+        args={"path": str(ucs2_file_path), "encoding": "UCS2"},
     )
     assert result == "Hello, world!"
 
 
-async def test_read_file_as_string_utf16le_integration(client: PolywrapClient, utf16le_file_path: Path):
+def test_read_file_as_string_utf16le_integration(
+    client: PolywrapClient, utf16le_file_path: Path
+):
     # Test with UTF16LE encoding
-    result = await client.invoke(
-        InvokerOptions(
-            uri=Uri.from_str("plugin/fs"),
-            method="readFileAsString",
-            args={"path": str(utf16le_file_path), "encoding": "UTF16LE"},
-        )
+    result = client.invoke(
+        uri=Uri.from_str("plugin/fs"),
+        method="readFileAsString",
+        args={"path": str(utf16le_file_path), "encoding": "UTF16LE"},
     )
     assert result == "Hello, world!"
 
 
-async def test_invalid_read_file_as_string_integration(client: PolywrapClient, temp_dir: Path):
+def test_invalid_read_file_as_string_integration(
+    client: PolywrapClient, temp_dir: Path
+):
     # Test with an invalid or non-existent file path
     with pytest.raises(Exception) as e:
-        await client.invoke(
-            InvokerOptions(
-                uri=Uri.from_str("plugin/fs"),
-                method="readFileAsString",
-                args={"path": str(temp_dir / "non_existent.txt")},
-            )
+        client.invoke(
+            uri=Uri.from_str("plugin/fs"),
+            method="readFileAsString",
+            args={"path": str(temp_dir / "non_existent.txt")},
         )
 
     assert isinstance(e.value.__cause__, FileNotFoundError)

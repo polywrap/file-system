@@ -1,52 +1,36 @@
-# @polywrap/http-plugin-js
+# polywrap-fs-plugin
 
-Http plugin currently supports two different methods `GET` and `POST`. Similar to calling axios, when defining request you need to specify a response type. Headers and query parameters may also be defined.
+The Filesystem plugin enables wraps running within the Polywrap client to interact with the local filesystem.
 
-## Response Types
+## Interface
 
-`TEXT` - The server will respond with text, the HTTP plugin will return the text as-is.
+The FileSystem plugin implements an existing wrap interface at `wrap://ens/wraps.eth:file-system@1.0.0`.
 
-`BINARY` - The server will respond with binary data (_bytes_), the HTTP plugin will encode as a **base64** string and return it.
+## Usage
 
-## GET request
+``` python
+from polywrap_client import PolywrapClient
+from polywrap_client_config_builder import PolywrapClientConfigBuilder
+from polywrap_fs_plugin import file_system_plugin
 
-Below is sample invocation of the `GET` request with custom request headers and query parameters (`urlParams`).
+fs_interface_uri = Uri.from_str("wrap://ens/wraps.eth:file-system@1.0.0")
+fs_plugin_uri = Uri.from_str("plugin/file-system")
 
-```python
-result = await client.invoke(
-    InvokerOptions(
-        uri="wrap://ens/http.polywrap.eth",
-        method="get",
-        args={
-            "url": "http://www.example.com/api",
-            "request": {
-                "responseType": "TEXT",
-                "urlParams": [{"key": "query", "value": "foo"}],
-                "headers": [{"key": "X-Request-Header", "value": "req-foo"}],
-            },
-        },
-    )
+config = (
+    PolywrapClientConfigBuilder()
+    .set_package(fs_plugin_uri, file_system_plugin())
+    .add_interface_implementations(fs_interface_uri, [fs_plugin_uri])
+    .set_redirect(fs_interface_uri, fs_plugin_uri)
+    .build()
 )
+
+client.invoke(
+    uri=Uri.from_str("wrap://ens/wraps.eth:file-system@1.0.0"),
+    method="readFile",
+    args={
+        "path": "./file.txt"
+    }
+);
 ```
 
-## POST request
-
-Below is sample invocation of the `POST` request with custom request headers and query parameters (`urlParams`). It is also possible to set request body as shown below.
-
-```python
-response = await client.invoke(
-    InvokerOptions(
-        uri="wrap://ens/http.polywrap.eth",
-        method="post",
-        args={
-            "url": "http://www.example.com/api",
-            "request": {
-                "responseType": "TEXT",
-                "urlParams": [{"key": "query", "value": "foo"}],
-                "headers": [{"key": "X-Request-Header", "value": "req-foo"}],
-                "body": "{data: 'test-request'}",
-            }
-        }
-    )
-)
-```
+For more usage examples see `src/__tests__`.
