@@ -1,17 +1,78 @@
 type Module {
+  """
+  Reads the file at the given path and returns its content as bytes.
+  """
   readFile(path: String!): Bytes!
+
+  """
+  Reads the file at the given path and returns its content as a string, decoded using the specified encoding.
+  """
   readFileAsString(path: String!, encoding: Encoding): String!
 
+  """
+  Checks if a file or directory exists at the given path and returns true if it does.
+  """
   exists(path: String!): Boolean!
 
+  """
+  Writes the provided data to a file at the given path. Returns true if successful.
+  """
   writeFile(path: String!, data: Bytes!): Boolean
 
-  mkdir(path: String!, recursive: Boolean): Boolean
+  """
+  Creates a new directory at the given path. The 'recursive' flag allows for creation of nested directories, and 'mode' sets the permissions. 'mustCreate' ensures that the operation fails if the directory already exists.
+  """
+  mkdir(path: String!, recursive: Boolean, mode: Int, mustCreate:  Boolean): Boolean
 
+  """
+  Removes a file at the given path. The 'recursive' and 'force' flags allow for deletion of directories and overriding of write-protection, respectively.
+  """
   rm(path: String!, recursive: Boolean, force: Boolean): Boolean
-  rmdir(path: String!): Boolean
+
+  """
+  Removes a directory at the given path. If 'recursive' is true, it will delete all subdirectories and files within the directory.
+  """
+  rmdir(path: String!, recursive: Boolean): Boolean
+
+  """
+  Copies a file from the source path to the destination path. Returns true if successful.
+  """
+  copyFile(source: String!, destination: String!): Boolean
+
+  """
+  Copies a directory, including all its contents, from the source path to the destination path. Returns true if successful.
+  """
+  copyDir(source: String!, destination: String!): Boolean
+
+  """
+  Moves a file or directory from the source path to the destination path. Returns true if successful.
+  """
+  move(source: String!, destination: String!): Boolean
+
+  """
+  Resolves and returns the real path of the file or directory specified by the given path.
+  """
+  realPath(path: String!): String!
+
+  """
+  Retrieves and returns the metadata of the file or directory located at the specified path.
+  """
+  getMetadata(path: String!): Metadata!
+
+  """
+  Renames the file located at the oldPath to the newPath. Returns true on success.
+  """
+  renameFile(oldPath: String!, newPath: String!): Boolean
+
+  """
+  Lists the contents of the directory located at the specified path and returns an array of filenames.
+  """
+  listDir(path: String!): [String!]!
 }
 
+"""
+Represents the available encoding types for file content.
+"""
 enum Encoding {
   ASCII
   UTF8
@@ -22,4 +83,44 @@ enum Encoding {
   LATIN1
   BINARY
   HEX
+}
+
+"""
+Defines the structure of file or directory metadata.
+"""
+type Metadata {
+  """
+  The name of the file or directory.
+  """
+  name: String!
+
+  """
+  The creation time of the file or directory in ISO 8601 format.
+  """
+  creationTime: String!
+
+  """
+  The last modified time of the file or directory in ISO 8601 format.
+  """
+  lastModifiedTime: String!
+
+  """
+  The permissions of the file or directory as an integer.
+  """
+  permissions: Int!
+
+  """
+  The size of the file or directory in bytes.
+  """
+  size: Int!
+
+  """
+  Indicates if the path represents a directory.
+  """
+  isDirectory: Boolean!
+
+  """
+  Indicates if the path represents a file.
+  """
+  isFile: Boolean!
 }
