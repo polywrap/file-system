@@ -4,11 +4,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-fs-plugin"
-version = "0.1.0a2"
+version = "0.1.0a3"
 description = ""
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.md"
 packages = [{include = "polywrap_fs_plugin"}]
+include = ["polywrap_fs_plugin/wrap/**/*"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
