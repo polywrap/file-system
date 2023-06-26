@@ -6,16 +6,17 @@ description = "Polywrap rust File system plugin"
 edition = "2021"
 
 [dependencies]
-polywrap_core = { version = "0.1.6-beta" }
-polywrap_plugin = { version = "0.1.6-beta" }
-polywrap_msgpack = { version = "0.1.6-beta" }
-polywrap_resolvers = { version = "0.1.6-beta" }
-wrap_manifest_schemas = { version = "0.1.6-beta" }
+polywrap_core = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
+polywrap_plugin = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
+polywrap_msgpack = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
+polywrap_resolvers = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
+wrap_manifest_schemas = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
 serde = { version = "1.0.145", features = ["derive"] }
+
 
 rm_rf = "0.6.2"
 serde_bytes = "0.11.9"
 thiserror = "1.0.40"
 
 [dev-dependencies]
-polywrap_client = { version = "0.1.6-beta" }
+polywrap_client = { git = "https://github.com/polywrap/rust-client", branch = "migrate-polywrap-serde" }
