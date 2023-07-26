@@ -1,6 +1,6 @@
 import { fileSystemPlugin } from "../index";
 import { PolywrapClient } from "@polywrap/client-js";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { EncodingEnum } from "../wrap";
 import { FileSystem_Module, FileSystem_EncodingEnum } from "./types/wrap";
 import fs from "fs";
@@ -14,7 +14,7 @@ describe("FileSystem plugin", () => {
   const sampleFilePath = path.resolve(__dirname, "samples/sample.txt");
   const tempFilePath = path.resolve(__dirname, "samples/tempfile.dat");
   const tempDirPath = path.resolve(__dirname, "samples/tempdir");
-  const uri = "wrap://ens/wraps.eth:file-system@1.0.0";
+  const uri = "wrapscan.io/polywrap/file-system@1.0";
 
   const cleanUpTempFiles = async () => {
     if (fs.existsSync(tempFilePath)) {
@@ -31,9 +31,9 @@ describe("FileSystem plugin", () => {
   beforeAll(async () => {
     await cleanUpTempFiles();
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addDefaults()
-      .addPackage(uri, fileSystemPlugin({}))
+      .setPackage(uri, fileSystemPlugin({}))
       .build();
 
     client = new PolywrapClient(config);
