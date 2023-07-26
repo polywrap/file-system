@@ -1,6 +1,6 @@
 format: 0.3.0
 project:
-  name: file-system-interface
+  name: file-system
   type: interface
 source:
   schema: ./polywrap.graphql
