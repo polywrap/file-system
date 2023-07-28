@@ -36,6 +36,8 @@ if (secretPropsFile.exists()) {
 fun getExtraString(name: String) = ext[name]?.toString()
 
 afterEvaluate {
+    val javadocJar: TaskProvider<Jar> = rootProject.tasks.named("dokkaJavadocJar", Jar::class.java)
+
     publishing {
         // Configure maven central repository
         repositories {
@@ -55,6 +57,8 @@ afterEvaluate {
         
         // Configure all publications
         publications.withType<MavenPublication> {
+            // Stub javadoc.jar artifact
+            artifact(javadocJar.get())
             // Provide artifacts information requited by Maven Central
             pom {
                 name.set("polywrap")

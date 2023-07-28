@@ -32,16 +32,15 @@ tasks.test {
     useJUnitPlatform()
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 // javadoc generation for Maven repository publication
 tasks.register<Jar>("dokkaJavadocJar") {
     dependsOn(tasks.dokkaJavadoc)
     from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
     archiveClassifier.set("javadoc")
-}
-
-kotlin {
-    jvmToolchain(17)
-    artifacts.archives(tasks["dokkaJavadocJar"])
 }
 
 // print stdout during tests
