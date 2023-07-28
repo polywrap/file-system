@@ -1,3 +1,6 @@
+# include wrap
+!wrap
+
 # Project exclude paths
 /.gradle/
 /build/
