@@ -54,6 +54,11 @@ afterEvaluate {
                 }
             }
         }
+
+        publications.create<MavenPublication>("jvm") {
+            from(components["kotlin"])
+            artifactId = "file-system-plugin"
+        }
         
         // Configure all publications
         publications.withType<MavenPublication> {
@@ -61,9 +66,9 @@ afterEvaluate {
             artifact(javadocJar.get())
             // Provide artifacts information requited by Maven Central
             pom {
-                name.set("polywrap")
+                name.set("file-system-plugin")
                 description.set("Polywrap FileSystem Plugin for JVM and Android")
-                url.set("https://github.com/polywrap/file-system")
+                url.set("https://github.com/polywrap/file-system/implementations/kt")
 
                 licenses {
                     license {
@@ -96,8 +101,4 @@ signing {
         getExtraString("signing.password"),
     )
     sign(publishing.publications)
-}
-
-tasks.withType<PublishToMavenRepository> {
-    dependsOn("signJvmPublication")
 }

@@ -61,27 +61,6 @@ configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         exclude("**/build.gradle.kts")
     }
 }
-//// ktlint has a bug where 'exclude' does not work, so this is a workaround
-//tasks {
-//    listOf(
-//        runKtlintCheckOverMainSourceSet,
-//        runKtlintCheckOverTestSourceSet
-//    ).forEach {
-//        it {
-//            setSource(
-//                project.sourceSets.map { sourceSet ->
-//                    sourceSet.allSource.filter { file ->
-//                        !file.path.contains("/build/") &&
-//                            !file.path.contains("/generated/") &&
-//                            !file.path.contains("/resources/") &&
-//                            !file.path.contains("/wrap/") &&
-//                            !file.path.contains("build.gradle.kts")
-//                    }
-//                }
-//            )
-//        }
-//    }
-//}
 
 // dokka configuration
 tasks.withType<DokkaTask>().configureEach {
