@@ -17,6 +17,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
-rootProject.name = "file-system-plugin"
+rootProject.name = "file-system"
 
 includeBuild("convention-plugins")
